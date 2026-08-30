@@ -160,6 +160,10 @@ const refreshToken = async (token: string) => {
         throw new Error('User is inactive or not found')
     }
 
+    if (user.password === null && user.googleId !== null) {
+        throw new Error("User Register with google. Please login with GOOGLE")
+    }
+
     const jwtPayload = {
         userId: user.id,
         name: user.name,
@@ -267,11 +271,6 @@ const googleLogin = async (payload: IGoogleLoginPayload) => {
 
 
     };
-
-
-
-
-
 
 
 
