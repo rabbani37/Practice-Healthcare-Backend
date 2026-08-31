@@ -1,3 +1,4 @@
+/** biome-ignore-all lint/style/noNonNullAssertion: <explanation> */
 import dotenv from "dotenv";
 import path from "path";
 
@@ -15,4 +16,13 @@ export default {
 	jwt_access_expires_in: process.env.JWT_ACCESS_EXPIRES_IN!,
 	jwt_refresh_expires_in: process.env.JWT_REFRESH_EXPIRES_IN!,
 	google_client_id: process.env.GOOGLE_CLIENT_ID!,
+	supper_admin_name: process.env.SUPPER_ADMIN_NAME!,
+	supper_admin_email: process.env.SUPPER_ADMIN_EMAIL!,
+	supper_admin_password: process.env.SUPPER_ADMIN_PASSWORD!,
+	test_admin_name: process.env.TEST_ADMIN_NAME!,
+	test_admin_email: process.env.TEST_ADMIN_EMAIL!,
+	test_admin_password: process.env.TEST_ADMIN_PASSWORD!,
+	test_doctor_name: process.env.TEST_DOCTOR_PASSWORD!,
+	test_doctor_email: process.env.TEST_DOCTOR_EMAIL!,
+	test_doctor_password: process.env.TEST_DOCTOR_PASSWORD!,
 };
