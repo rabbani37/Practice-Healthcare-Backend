@@ -20,8 +20,9 @@ import { OAuth2Client } from "google-auth-library";
 import { googleClient } from "../../lib/googleAuth";
 import crypto from "crypto"
 import { redisClient } from "../../lib/redisClient";
-
-
+import { transporter } from "../../lib/nodemailer";
+import path from "path"
+import ejs from "ejs"
 
 
 const registerPatient = async (payload: IRegisterPatientPayload) => {
@@ -349,9 +350,15 @@ const forgotPassword = async (payload: ForgotPasswordPayload) => {
 		}
 	});
 
+	const templatesPath = path.join(process.cwd(), "src/app/templates/forgot-password-template.ejs")
+	const templateHtml = await ejs.renderFile(templatesPath, { OTP: otpValue })
 
-	
-	await 
+	await transporter.sendMail({
+		from: config.smtp_sender,
+		to: isExsistUser.email,
+		subject: "Forgot Password",
+		html: templateHtml
+	})
 
 }
 
