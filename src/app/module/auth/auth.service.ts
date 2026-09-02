@@ -396,12 +396,17 @@ const resetPassword = async (payload: ResetPasswordPayload) => {
 	})
 
 
+	const templatesPath = path.join(process.cwd(), "src/app/templates/reset-password-success.ejs");
+	const templetesHtml = await ejs.renderFile(templatesPath, { name: isExsistUser.name })
+
 	await transporter.sendMail({
 		from: config.smtp_sender,
 		to: isExsistUser.email,
 		subject: "Password Changed ",
-		text: "Your password reseted successfully "
+		html: templetesHtml
 	})
+
+
 
 }
 
