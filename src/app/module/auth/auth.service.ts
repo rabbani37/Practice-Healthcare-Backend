@@ -368,7 +368,40 @@ const forgotPassword = async (payload: ForgotPasswordPayload) => {
 const resetPassword = async (payload: ResetPasswordPayload) => {
 	const { email, newPassword, otp } = payload;
 
+	const isExsistUser = await prisma.user.findUnique({
+		where: { email }
+	});
 
+	if (!isExsistUser) {
+		throw new Error("User Not Found!")
+	}
+	if (isExsistUser.authProvider !== "CREDENTIAL") {
+		throw new Error("User is not credential register")
+	}
+	if (isExsistUser.status === "BLOCKED") {
+		throw new Error("User is blocked")
+	}
+	if (isExsistUser.status === "DELETED" || isExsistUser.isDeleted) {
+		throw new Error("User is deleted")
+	}
+	if (!isExsistUser.emailVerified) {
+		throw new Error("User not veryfied")
+	}
+
+
+	const newHashPassword = await bcrypt.hash(newPassword, Number(config.bcrypt_salt_rounds));
+	await prisma.user.update({
+		where: { email },
+		data: { password: newHashPassword }
+	})
+
+
+	await transporter.sendMail({
+		from: config.smtp_sender,
+		to: isExsistUser.email,
+		subject: "Password Changed ",
+		text: "Your password reseted successfully "
+	})
 
 }
 
