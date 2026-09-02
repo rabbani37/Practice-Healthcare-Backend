@@ -25,4 +25,8 @@ export default {
 	test_doctor_name: process.env.TEST_DOCTOR_PASSWORD!,
 	test_doctor_email: process.env.TEST_DOCTOR_EMAIL!,
 	test_doctor_password: process.env.TEST_DOCTOR_PASSWORD!,
+	redist_user:process.env.REDIS_USER!,
+	redist_password:process.env.REDIS_PASSWORD!,
+	redist_host:process.env.REDIS_HOST!,
+	redist_port:process.env.REDIS_PORT!,
 };

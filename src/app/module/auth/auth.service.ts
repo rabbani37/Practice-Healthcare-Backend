@@ -9,13 +9,20 @@ import config from "../../config";
 import { prisma } from "../../lib/prisma";
 import { jwtUtils } from "../../utils/jwt";
 import type {
+	ForgotPasswordPayload,
 	IGoogleLoginPayload,
 	ILoginUserPayload,
 	IRegisterPatientPayload,
 	IRequestUser,
+	ResetPasswordPayload,
 } from "./auth.interface";
 import { OAuth2Client } from "google-auth-library";
 import { googleClient } from "../../lib/googleAuth";
+import crypto from "crypto"
+import { redisClient } from "../../lib/redisClient";
+
+
+
 
 const registerPatient = async (payload: IRegisterPatientPayload) => {
 	const { name, password } = payload;
@@ -309,10 +316,64 @@ const googleLogin = async (payload: IGoogleLoginPayload) => {
 	};
 };
 
+const forgotPassword = async (payload: ForgotPasswordPayload) => {
+	const { email } = payload;
+
+	const isExsistUser = await prisma.user.findUnique({
+		where: { email }
+	});
+
+	if (!isExsistUser) {
+		throw new Error("User Not Found!")
+	}
+	if (isExsistUser.authProvider !== "CREDENTIAL") {
+		throw new Error("User is not credential register")
+	}
+	if (isExsistUser.status === "BLOCKED") {
+		throw new Error("User is blocked")
+	}
+	if (isExsistUser.status === "DELETED" || isExsistUser.isDeleted) {
+		throw new Error("User is deleted")
+	}
+	if (!isExsistUser.emailVerified) {
+		throw new Error("User not veryfied")
+	}
+
+	const otpKey = `forgot-pass:${email}`
+	const otpValue = crypto.randomInt(20000, 900000)
+
+	await redisClient.set(otpKey, otpValue, {
+		expiration: {
+			type: "EX",
+			value: 5 * 60
+		}
+	});
+
+	
+
+}
+
+
+
+
+const resetPassword = async (payload: ResetPasswordPayload) => {
+	const { email, newPassword, otp } = payload;
+
+
+
+}
+
+
+
+
+
+
 export const AuthService = {
 	registerPatient,
 	loginUser,
 	getMe,
 	refreshToken,
 	googleLogin,
+	forgotPassword,
+	resetPassword
 };

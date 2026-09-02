@@ -16,7 +16,8 @@ export const seedSupperAdmin = async () => {
         });
 
         if (isExsistSupperAdmin) {
-            throw new Error("Already exsist supper admin")
+            console.log("Already exsist supper admin");
+            return
 
         }
         const name = config.supper_admin_name
@@ -65,8 +66,8 @@ export const seedTestAdmin = async () => {
         });
 
         if (isExsistTestAdmin) {
-            throw new Error("Already exsist Test admin")
-
+            console.log("Already exsist Test admin");
+            return
         }
         const name = config.test_admin_name
         const email = config.test_admin_email
@@ -110,7 +111,8 @@ export const seedTestDoctor = async () => {
         });
 
         if (isExsistTestDoctor) {
-            throw new Error("Already exsist a Doctor")
+            return console.log("Already exsist a Doctor");
+
 
         }
         const name = config.test_doctor_name

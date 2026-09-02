@@ -21,3 +21,14 @@ export interface IRequestUser {
 export interface IGoogleLoginPayload {
 	idToken: string;
 }
+
+export interface ForgotPasswordPayload {
+	email: string;
+}
+
+export interface ResetPasswordPayload{
+	email:string;
+	newPassword:string;
+	otp:string;
+	
+}
