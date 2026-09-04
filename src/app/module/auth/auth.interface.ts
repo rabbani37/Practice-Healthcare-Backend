@@ -1,3 +1,4 @@
+import { email } from "zod";
 import type { Role } from "../../../generated/prisma/browser";
 
 export interface ILoginUserPayload {
@@ -26,9 +27,12 @@ export interface ForgotPasswordPayload {
 	email: string;
 }
 
-export interface ResetPasswordPayload{
-	email:string;
-	newPassword:string;
-	otp:string;
-	
+export interface ResetPasswordPayload {
+	email: string;
+	newPassword: string;
+	otp: string;
+}
+export interface IVerifyEmailPayload {
+	email: string;
+	otp: string
 }
