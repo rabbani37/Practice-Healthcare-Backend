@@ -22,14 +22,12 @@ const bookAppoinment = catchAsync(async (req: Request, res: Response) => {
 
 const bookAppoinmentCallback = catchAsync(async (req: Request, res: Response) => {
 
-    const result = await AppoinmentService.bookAppoinmentCallback()
+    const query = req.query;
 
-    sendResponse(res, {
-        statusCode: httpStatus.CREATED,
-        success: true,
-        message: "After payment successfully",
-        data: result
-    });
+
+    const { executePaymentResult, redirectUrl } = await AppoinmentService.bookAppoinmentCallback(query)
+    console.log("callbac controller", executePaymentResult);
+    res.redirect(redirectUrl)
 });
 
 
