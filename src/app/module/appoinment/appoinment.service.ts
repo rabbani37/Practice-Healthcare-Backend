@@ -37,6 +37,11 @@ const bookAppoinment = async () => {
 
 
 
+const bookAppoinmentCallback = async () => {
+
+}
+
+
 
 
 
@@ -48,5 +53,6 @@ const bookAppoinment = async () => {
 
 
 export const AppoinmentService = {
-    bookAppoinment
+    bookAppoinment,
+    bookAppoinmentCallback
 }

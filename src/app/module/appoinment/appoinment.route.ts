@@ -9,7 +9,7 @@ const router = Router();
 
 router.post("/book-appoinment", AppoinmentController.bookAppoinment)
 
-
+router.get("/book-appoinment/payment/callback",AppoinmentController.bookAppoinmentCallback)
 
 
 

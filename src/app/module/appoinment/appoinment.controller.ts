@@ -20,10 +20,23 @@ const bookAppoinment = catchAsync(async (req: Request, res: Response) => {
 
 
 
+const bookAppoinmentCallback = catchAsync(async (req: Request, res: Response) => {
+
+    const result = await AppoinmentService.bookAppoinmentCallback()
+
+    sendResponse(res, {
+        statusCode: httpStatus.CREATED,
+        success: true,
+        message: "After payment successfully",
+        data: result
+    });
+});
+
 
 
 
 
 export const AppoinmentController = {
-    bookAppoinment
+    bookAppoinment,
+    bookAppoinmentCallback
 }
